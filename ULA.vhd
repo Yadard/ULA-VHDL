@@ -68,7 +68,7 @@ begin
 			port map(in_value => op_code, out_codes => seg_code_op);
 			
 		MUX: work.my_mux
-			generic map(SEL_ARCH => SEL_ARCH, BIT_ARCH => BITS_ARCH)
+			generic map(SEL_ARCH => SEL_ARCH, BITS_ARCH => BITS_ARCH)
 			port map(input => aux_mux, sel => op_code, o => aux_R);
 		
 		ADDER: work.adder_and_sub

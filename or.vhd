@@ -1,28 +1,29 @@
-LIBRARY IEEE;
-USE IEEE.std_logic_1164.all;
-USE WORK.types.all;
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
 
-ENTITY or_gate IS
+entity or_gate is
 	generic (
 		BITS_ARCH: integer
 	);
 	
-	PORT( 
-			A, B: in std_logic_vector(BITS_ARCH - 1 downto 0);
+	port( 
+		-- input ports
+		A, B: in std_logic_vector(BITS_ARCH - 1 downto 0);
 			
-			S: out std_logic_vector(BITS_ARCH - 1 downto 0)
-		);
-END or_gate;
+		-- output ports
+		S: out std_logic_vector(BITS_ARCH - 1 downto 0)
+	);
+end or_gate;
 
-ARCHITECTURE arch_or_gate OF or_gate IS
-	BEGIN
+architecture arch_or_gate of or_gate is
+	begin
 	
 	process(A, B)
 	begin
-		for i in 0 to BITS_ARCH - 1 loop
+		for i in 0 to S'length - 1 loop
 			S(i) <= A(i) OR B(i);
 		end loop;
 	end process;
 	
 	
-END arch_or_gate;
+end arch_or_gate;

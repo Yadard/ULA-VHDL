@@ -11,7 +11,7 @@ ENTITY display IS
 		RADIX: integer := 10
 	);
 
-	PORT( 
+	port( 
 			in_value: in std_logic_vector(BITS_ARCH - 1 downto 0);
 
 			out_codes : out seg7_code_vector_t(SEG7_AMOUNT - 1 downto 0)		
@@ -37,7 +37,8 @@ BEGIN
 		variable i: integer := 0;
 	begin
 		
-		out_codes <= (OTHERS => "0000000");
+		-- Default é tudo desligado.
+		out_codes <= (OTHERS => (OTHERS => '1'));
 		
 		num := to_integer(unsigned(in_value));
 		for i in 0 to SEG7_AMOUNT - 1 loop

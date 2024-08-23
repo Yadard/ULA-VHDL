@@ -2,27 +2,28 @@ LIBRARY IEEE;
 USE IEEE.std_logic_1164.all;
 USE WORK.types.all;
 
-ENTITY not_gate IS
+entity not_gate is
 	generic(
 		BITS_ARCH: integer
 	);
 
-	PORT( 
-			A: in std_logic_vector(BITS_ARCH - 1 downto 0);
+	port( 
+		-- input ports
+		A: in std_logic_vector(BITS_ARCH - 1 downto 0);
 			
-			S: out std_logic_vector(BITS_ARCH - 1 downto 0)
-		);
-END not_gate;
+		-- output ports
+		S: out std_logic_vector(BITS_ARCH - 1 downto 0)
+	);
+end not_gate;
 
-ARCHITECTURE arch_not_gate OF not_gate IS
-	BEGIN
+architecture arch_not_gate of not_gate is
+begin
 	
 	process(A)
 	begin
-		for i in 0 to BITS_ARCH - 1 loop
-			S(i) <= NOT A(i);
+		for i in 0 to S'length - 1 loop
+			S(i) <= not A(i);
 		end loop;
 	end process;
 	
-	
-END arch_not_gate;
+end arch_not_gate;

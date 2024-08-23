@@ -1,12 +1,12 @@
 LIBRARY IEEE;
 USE IEEE.std_logic_1164.ALL;
 
-ENTITY divider IS
+entity divider is
 	generic(
 		BITS_ARCH: integer
 	);
 
-    PORT (
+   port (
 		  -- input ports
         A : IN  std_logic_vector(BITS_ARCH -1 DOWNTO 0);
 		  B : IN  std_logic_vector((BITS_ARCH/2)-1 DOWNTO 0);
@@ -15,9 +15,9 @@ ENTITY divider IS
         Q    : OUT std_logic_vector(BITS_ARCH-1 DOWNTO 0);
 		  R    : OUT std_logic_vector(BITS_ARCH-1 DOWNTO 0)
     );
-END ENTITY divider;
+end entity divider;
 
-ARCHITECTURE Behavioral OF divider IS
+architecture arch_divider OF divider IS
 	type carry_chain_levels_t is array(0 to BITS_ARCH - 1) of std_logic_vector(BITS_ARCH / 2 + 1 downto 0);
 	type result_levels_t is array(0 to BITS_ARCH - 1) of  std_logic_vector(BITS_ARCH / 2 downto 0);
 	
@@ -30,34 +30,36 @@ ARCHITECTURE Behavioral OF divider IS
 	signal S_chain: S_chain_levels_t;
 	signal operands: operands_levels_t := (OTHERS => (OTHERS => (OTHERS => '0')));
 	
-BEGIN
+begin
 	process(A, B)
 	begin
-		for l in 0 to BITS_ARCH - 1 loop
-			for i in 0 to (BITS_ARCH / 2) - 1 loop
+		for l in 0 to Q'length - 1 loop
+			for i in 0 to B'length - 1 loop
 				operands(l)(i)(0) <= B(i);
 			end loop;
-			operands(l)(0)(1) <= A(BITS_ARCH - 1 - l);
+			operands(l)(0)(1) <= A(A'length - 1 - l);
 		end loop;
 	end process;
 	
 	process(S_chain)
 		variable ci_per_level: integer := (BITS_ARCH / 2);
 	begin
-		for l in 1 to BITS_ARCH - 1 loop
-			if l >= BITS_ARCH - 3 then
-				for i in 1 to BITS_ARCH / 2 loop
+		for l in 1 to Q'length - 1 loop
+			
+			-- last three levels
+			if l >= Q'length - 1 - 2 then
+				for i in 1 to B'length loop
 					operands(l)(i)(1) <= S_chain(l - 1)(i - 1);
 				end loop;
 			else
-				for i in 1 to (BITS_ARCH / 2) - 1 loop
+				for i in 1 to B'length - 1 loop
 					operands(l)(i)(1) <= S_chain(l - 1)(i - 1);
 				end loop;
 			end if;
 		end loop;
 	end process;
 	
-	process(S_chain(BITS_ARCH - 1))
+	process(S_chain(S_chain'length - 1))
 	begin
 		for i in 0 to R'length - 1 loop
 			if i < S_chain(BITS_ARCH - 1)'length then
@@ -69,16 +71,16 @@ BEGIN
 	end process;
 	
 	
-	gen_division: FOR i IN 0 TO BITS_ARCH - 1 GENERATE
+	gen_division: for i in 0 to Q'length - 1 generate
 	begin
-        -- Generate block based on the condition
-        gen_carry_chain: IF i > BITS_ARCH - 3 GENERATE
-				CONSTANT ci_per_level : integer := (BITS_ARCH / 2) + 1;
+		  -- generator for the last two levels
+        gen_carry_chain: IF i > Q'length - 1 - 2 generate
+				constant ci_per_level : integer := B'length + 1;
 		  begin
-            gen_carry: FOR j IN 0 TO ci_per_level - 1 GENERATE
+            gen_carry: for j in 0 to ci_per_level - 1 generate
 				begin
-                DIVPU: ENTITY work.div_pu
-                PORT MAP(
+                DIVPU: entity work.div_pu
+                port map(
                     A => operands(i)(j)(1),
                     B => operands(i)(j)(0),
                     Cin => carry_chain(i)(j),
@@ -87,18 +89,18 @@ BEGIN
 						  S => S_chain(i)(j)
                 );
 					 
-					Q(BITS_ARCH - 1 - i) <= carry_chain(i)(ci_per_level);
-            END GENERATE gen_carry;
-        END GENERATE gen_carry_chain;
+					Q(Q'length - 1 - i) <= carry_chain(i)(ci_per_level);
+            end generate gen_carry;
+        end generate gen_carry_chain;
 
-        -- Alternate generate block for the other condition
-        gen_normal_chain: IF i <= BITS_ARCH - 3 GENERATE
-				CONSTANT ci_per_level : integer := BITS_ARCH / 2;
+        -- generator for the other levels two levels
+        gen_normal_chain: if i <= BITS_ARCH - 3 generate
+				CONSTANT ci_per_level : integer := B'length;
 		  begin
-            gen_carry: FOR j IN 0 TO ci_per_level - 1 GENERATE
+            gen_carry: for j in 0 to ci_per_level - 1 generate
 				begin
-                DIVPU: ENTITY work.div_pu
-                PORT MAP(
+                DIVPU: entity work.div_pu
+                port map(
                     A => operands(i)(j)(1),
                     B => operands(i)(j)(0),
                     Cin => carry_chain(i)(j),
@@ -107,9 +109,9 @@ BEGIN
 						  S => S_chain(i)(j)
                 );
 					 
-					 Q(BITS_ARCH - 1 - i) <= carry_chain(i)(ci_per_level);
-            END GENERATE gen_carry;
-        END GENERATE gen_normal_chain;
-    END GENERATE gen_division;
+					 Q(Q'length - 1 - i) <= carry_chain(i)(ci_per_level);
+            end generate gen_carry;
+        end generate gen_normal_chain;
+    end generate gen_division;
 	
-END ARCHITECTURE Behavioral;
+end architecture arch_divider;

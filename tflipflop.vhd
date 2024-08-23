@@ -16,15 +16,15 @@ architecture arch_tflipflop of tflipflop is
 begin
 	process (CLK)
 	begin
-		if CLK'event and CLK='1' then
+		if CLK'event AND CLK='1' then
 			if T='0' then
 				tmp <= tmp;
 			elsif T='1' then
-				tmp <= not (tmp);
+				tmp <= NOT(tmp);
 			end if;
 		end if;
 	end process;
 	
 	Q <= tmp;
-	NQ <= not(tmp);
+	NQ <= NOT(tmp);
 end arch_tflipflop;

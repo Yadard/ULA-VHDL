@@ -19,7 +19,7 @@ ARCHITECTURE arch_and_gate OF and_gate IS
 	
 	process(A, B)
 	begin
-		for i in 0 to BITS_ARCH - 1 loop
+		for i in 0 to S'length - 1 loop
 			S(i) <= A(i) AND B(i);
 		end loop;
 	end process;
