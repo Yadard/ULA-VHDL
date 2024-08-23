@@ -6,7 +6,7 @@ USE WORK.types.all;
 
 entity ULA is
 	generic(
-        BITS_ARCH   : integer := 8;
+        BITS_ARCH   : integer := 4;
         SEL_ARCH    : integer := 4;
         SEG7_AMOUNT : integer := 4
     );
@@ -103,6 +103,14 @@ begin
 		MULT: work.multiplier
 			generic map(BITS_ARCH => BITS_ARCH)
 			port map(A => A(BITS_ARCH/2 - 1 downto 0), B => B(BITS_ARCH/2 - 1 downto 0), S => aux_mux(7));
+		
+		DIV: work.divider
+			generic map(BITS_ARCH => BITS_ARCH)
+			port map(A => A, B => B(BITS_ARCH/2 - 1 downto 0), Q => aux_mux(8));
+		
+		MODULUS: work.divider
+			generic map(BITS_ARCH => BITS_ARCH)
+			port map(A => A, B => B(BITS_ARCH/2 - 1 downto 0), R => aux_mux(9));
 		
 		negative <= aux_R(BITS_ARCH - 1);
 		R <= aux_R;
