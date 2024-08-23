@@ -26,7 +26,7 @@ ARCHITECTURE Behavioral OF divider IS
 	
 	type S_chain_levels_t is array(0 to BITS_ARCH - 1) of std_logic_vector(BITS_ARCH / 2 downto 0);
 	
-	signal carry_chain: carry_chain_levels_t;
+	signal carry_chain: carry_chain_levels_t := (OTHERS => (OTHERS => '1'));
 	signal S_chain: S_chain_levels_t;
 	signal operands: operands_levels_t := (OTHERS => (OTHERS => (OTHERS => '0')));
 	
@@ -59,7 +59,13 @@ BEGIN
 	
 	process(S_chain(BITS_ARCH - 1))
 	begin
-		R <= "0" & S_chain(BITS_ARCH - 1);
+		for i in 0 to R'length - 1 loop
+			if i < S_chain(BITS_ARCH - 1)'length then
+				R(i) <= S_chain(BITS_ARCH - 1)(i);
+			else
+				R(i) <= '0';
+			end if;
+		end loop;
 	end process;
 	
 	
@@ -73,15 +79,15 @@ BEGIN
 				begin
                 DIVPU: ENTITY work.div_pu
                 PORT MAP(
-                    A => operands(i)(j)(0),
-                    B => operands(i)(j)(1),
+                    A => operands(i)(j)(1),
+                    B => operands(i)(j)(0),
                     Cin => carry_chain(i)(j),
                     Cout => carry_chain(i)(j + 1),
                     sel => carry_chain(i)(ci_per_level),
 						  S => S_chain(i)(j)
                 );
 					 
-					Q(i) <= carry_chain(i)(ci_per_level);
+					Q(BITS_ARCH - 1 - i) <= carry_chain(i)(ci_per_level);
             END GENERATE gen_carry;
         END GENERATE gen_carry_chain;
 
@@ -93,15 +99,15 @@ BEGIN
 				begin
                 DIVPU: ENTITY work.div_pu
                 PORT MAP(
-                    A => operands(i)(j)(0),
-                    B => operands(i)(j)(1),
+                    A => operands(i)(j)(1),
+                    B => operands(i)(j)(0),
                     Cin => carry_chain(i)(j),
                     Cout => carry_chain(i)(j + 1),
                     sel => carry_chain(i)(ci_per_level),
 						  S => S_chain(i)(j)
                 );
 					 
-					 Q(i) <= carry_chain(i)(ci_per_level);
+					 Q(BITS_ARCH - 1 - i) <= carry_chain(i)(ci_per_level);
             END GENERATE gen_carry;
         END GENERATE gen_normal_chain;
     END GENERATE gen_division;

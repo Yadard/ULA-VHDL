@@ -9,3 +9,5 @@ simulation
 *.smsg
 *.done
 *.jdi
+
+*.temp

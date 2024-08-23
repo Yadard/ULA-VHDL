@@ -25,7 +25,7 @@ architecture arch_mux of div_pu is
     signal S_vec  : std_logic_vector(0 downto 0);
 begin
 	ADDER: work.full_adder
-		port map(A => A, B => B, Cin => Cin, Cout => Cout, S => aux_S);
+		port map(A => A, B => NOT(B), Cin => Cin, Cout => Cout, S => aux_S);
 	MUX: work.my_mux
 		generic map(SEL_ARCH => 1, BIT_ARCH => 1)
 		port map(sel => sel_vec, input => aux_mux, O => S_vec);

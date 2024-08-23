@@ -6,9 +6,10 @@ USE WORK.types.all;
 
 entity ULA is
 	generic(
-        BITS_ARCH   : integer := 4;
+        BITS_ARCH   : integer := 8;
         SEL_ARCH    : integer := 4;
-        SEG7_AMOUNT : integer := 4
+        SEG7_AMOUNT : integer := 4;
+		  SEG7_AMOUNT_OP : integer := 2
     );
 
 	port
@@ -19,17 +20,15 @@ entity ULA is
 		
 
 		-- Output ports
+		R	         : out std_logic_vector(BITS_ARCH - 1 downto 0);
+		seg_code    : out seg7_code_vector_t(SEG7_AMOUNT - 1 downto 0);
 		
 		-- This port only purpose in life is allowing to see the opcode
 		-- behaviour through the modelsim, because I just can't for the sake
 		-- of god make it simulate the signal op_code properly, might be just a
 		-- skill issue :\
 		op_code_out : out std_logic_vector(SEL_ARCH - 1 downto 0);
-		
-		
-		R	         : out std_logic_vector(BITS_ARCH - 1 downto 0);
-		seg_code    : out seg7_code_vector_t(SEG7_AMOUNT - 1 downto 0);
-		seg_code_op : out seg7_code_vector_t(1 downto 0);
+		seg_code_op : out seg7_code_vector_t(SEG7_AMOUNT_OP - 1 downto 0);
 		
 		overflow    : out std_logic;
 		zero        : out std_logic;
@@ -41,7 +40,7 @@ end ULA;
 -- Library Clause(s) (optional)
 -- Use Clause(s) (optional)
 
-architecture ULA4b of ULA is
+architecture arch_ULA of ULA is
     -- Signal declaration
     signal aux_mux : std_logic_vector_array(2 ** SEL_ARCH - 1 downto 0)(BITS_ARCH - 1 downto 0) := (OTHERS => (OTHERS => '0'));
 	 signal aux_R   : std_logic_vector(BITS_ARCH - 1 downto 0) := (OTHERS => '0');
@@ -49,7 +48,7 @@ architecture ULA4b of ULA is
 	 signal op_code : std_logic_vector(SEL_ARCH - 1 downto 0) := (OTHERS => '0');
 begin
 
-	op_code_out <= op_code;
+		op_code_out <= op_code;
 	
 		GEN_FF_OPCODE: for i in 0 to SEL_ARCH-1 generate
 		  FLIPFLOPB: WORK.tflipflop
@@ -65,7 +64,7 @@ begin
 			port map(in_value => aux_R, out_codes => seg_code);
 			
 		DISPLAYOP: work.display
-			generic map(BITS_ARCH => SEL_ARCH, SEG7_AMOUNT => 2)
+			generic map(BITS_ARCH => SEL_ARCH, SEG7_AMOUNT => SEG7_AMOUNT_OP)
 			port map(in_value => op_code, out_codes => seg_code_op);
 			
 		MUX: work.my_mux
@@ -124,21 +123,4 @@ begin
 			end loop;
 			zero <= foo;
 		end process;
-	
-		
-
-	-- Process Statement (optional)		
-
-	-- Concurrent Procedure Call (optional)
-
-	-- Concurrent Signal Assignment (optional)
-	
-	-- Conditional Signal Assignment (optional)
-
-	-- Selected Signal Assignment (optional)
-
-	-- Component Instantiation Statement (optional)
-
-	-- Generate Statement (optional)
-
-end ULA4b;
+end arch_ULA;
