@@ -16,7 +16,7 @@ architecture arch_tflipflop of tflipflop is
 begin
 	process (CLK)
 	begin
-		if CLK'event AND CLK='1' then
+		if rising_edge(CLK) then
 			if T='0' then
 				tmp <= tmp;
 			elsif T='1' then

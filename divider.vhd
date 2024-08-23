@@ -93,7 +93,7 @@ begin
             end generate gen_carry;
         end generate gen_carry_chain;
 
-        -- generator for the other levels two levels
+        -- generator for the other levels
         gen_normal_chain: if i <= BITS_ARCH - 3 generate
 				CONSTANT ci_per_level : integer := B'length;
 		  begin
