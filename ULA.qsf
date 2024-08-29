@@ -56,13 +56,13 @@ set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
 set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVTTL"
 
 set_location_assignment PIN_V2 -to A[7]
-set_location_assignment PIN_N1 -to A[6]
-set_location_assignment PIN_P1 -to A[5]
-set_location_assignment PIN_P2 -to A[4]
+set_location_assignment PIN_V1 -to A[6]
+set_location_assignment PIN_U4 -to A[5]
+set_location_assignment PIN_U3 -to A[4]
 set_location_assignment PIN_T7 -to A[3]
-set_location_assignment PIN_U3 -to A[2]
-set_location_assignment PIN_U4 -to A[1]
-set_location_assignment PIN_V1 -to A[0]
+set_location_assignment PIN_P2 -to A[2]
+set_location_assignment PIN_P1 -to A[1]
+set_location_assignment PIN_N1 -to A[0]
 
 set_location_assignment PIN_N25 -to B[0]
 set_location_assignment PIN_N26 -to B[1]
@@ -73,19 +73,19 @@ set_location_assignment PIN_AD13 -to B[5]
 set_location_assignment PIN_AC13 -to B[6]
 set_location_assignment PIN_C13 -to B[7]
 
-set_location_assignment PIN_G26 -to op_code_buttons[3]
-set_location_assignment PIN_N23 -to op_code_buttons[2]
-set_location_assignment PIN_P23 -to op_code_buttons[1]
-set_location_assignment PIN_W26 -to op_code_buttons[0]
+set_location_assignment PIN_G26 -to op_code_buttons[0]
+set_location_assignment PIN_N23 -to op_code_buttons[1]
+set_location_assignment PIN_P23 -to op_code_buttons[2]
+set_location_assignment PIN_W26 -to op_code_buttons[3]
 
-set_location_assignment PIN_AF22 -to R[0]
-set_location_assignment PIN_W19 -to R[1]
-set_location_assignment PIN_V18 -to R[2]
-set_location_assignment PIN_U18 -to R[3]
-set_location_assignment PIN_U17 -to R[4]
-set_location_assignment PIN_AA20 -to R[5]
-set_location_assignment PIN_Y18 -to R[6]
-set_location_assignment PIN_Y12 -to R[7]
+set_location_assignment PIN_AE22 -to R[0]
+set_location_assignment PIN_AF22 -to R[1]
+set_location_assignment PIN_W19 -to R[2]
+set_location_assignment PIN_V18 -to R[3]
+set_location_assignment PIN_U18 -to R[4]
+set_location_assignment PIN_U17 -to R[5]
+set_location_assignment PIN_AA20 -to R[6]
+set_location_assignment PIN_Y18 -to R[7]
 
 set_location_assignment PIN_AF10 -to seg_code[0][0]
 set_location_assignment PIN_AB12 -to seg_code[0][1]
@@ -111,14 +111,6 @@ set_location_assignment PIN_AB26 -to seg_code[2][4]
 set_location_assignment PIN_AB25 -to seg_code[2][5]
 set_location_assignment PIN_Y24 -to seg_code[2][6]
 
-set_location_assignment PIN_Y23 -to seg_code[3][0]
-set_location_assignment PIN_AA25 -to seg_code[3][1]
-set_location_assignment PIN_AA26 -to seg_code[3][2]
-set_location_assignment PIN_Y26 -to seg_code[3][3]
-set_location_assignment PIN_Y25 -to seg_code[3][4]
-set_location_assignment PIN_U22 -to seg_code[3][5]
-set_location_assignment PIN_W24 -to seg_code[3][6]
-
 set_location_assignment PIN_R2 -to seg_code_op[0][0]
 set_location_assignment PIN_P4 -to seg_code_op[0][1]
 set_location_assignment PIN_P3 -to seg_code_op[0][2]
@@ -135,14 +127,38 @@ set_location_assignment PIN_L7 -to seg_code_op[1][4]
 set_location_assignment PIN_P9 -to seg_code_op[1][5]
 set_location_assignment PIN_N9 -to seg_code_op[1][6]
 
+set_location_assignment PIN_U9 -to seg_code_flags[0][0]
+set_location_assignment PIN_U1 -to seg_code_flags[0][1]
+set_location_assignment PIN_U2 -to seg_code_flags[0][2]
+set_location_assignment PIN_T4 -to seg_code_flags[0][3]
+set_location_assignment PIN_R7 -to seg_code_flags[0][4]
+set_location_assignment PIN_R6 -to seg_code_flags[0][5]
+set_location_assignment PIN_T3 -to seg_code_flags[0][6]
+
+set_location_assignment PIN_Y23 -to seg_code_flags[1][0]
+set_location_assignment PIN_AA25 -to seg_code_flags[1][1]
+set_location_assignment PIN_AA26 -to seg_code_flags[1][2]
+set_location_assignment PIN_Y26 -to seg_code_flags[1][3]
+set_location_assignment PIN_Y25 -to seg_code_flags[1][4]
+set_location_assignment PIN_U22 -to seg_code_flags[1][5]
+set_location_assignment PIN_W24 -to seg_code_flags[1][6]
+
+set_location_assignment PIN_T2 -to seg_code_flags[2][0]
+set_location_assignment PIN_P6 -to seg_code_flags[2][1]
+set_location_assignment PIN_P7 -to seg_code_flags[2][2]
+set_location_assignment PIN_T9 -to seg_code_flags[2][3]
+set_location_assignment PIN_R5 -to seg_code_flags[2][4]
+set_location_assignment PIN_R4 -to seg_code_flags[2][5]
+set_location_assignment PIN_R3 -to seg_code_flags[2][6]
+
 set_location_assignment PIN_AE23 -to overflow
 set_location_assignment PIN_AF23 -to negative
 set_location_assignment PIN_AB21 -to zero
 
-set_location_assignment PIN_AF13 -to op_code_out[3]
-set_location_assignment PIN_AE13 -to op_code_out[2]
-set_location_assignment PIN_AE12 -to op_code_out[1]
-set_location_assignment PIN_AD12 -to op_code_out[0]
+set_location_assignment PIN_AF13 -to op_code_out[0]
+set_location_assignment PIN_AE13 -to op_code_out[1]
+set_location_assignment PIN_AE12 -to op_code_out[2]
+set_location_assignment PIN_AD12 -to op_code_out[3]
 
 set_global_assignment -name VECTOR_WAVEFORM_FILE tests/sum.vwf
 set_global_assignment -name VECTOR_WAVEFORM_FILE tests/sub.vwf
@@ -169,5 +185,6 @@ set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_global_assignment -name VHDL_FILE div_pu.vhd
 set_global_assignment -name VHDL_FILE divider.vhd
-set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE "C:/Users/USER/Desktop/UFPEL/Semestre_II/TD/ULA/tests/buttons.vwf"
+set_global_assignment -name VHDL_FILE display_flags.vhd
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE "C:/Users/USER/Downloads/ULA-VHDL/tests/sum.vwf"

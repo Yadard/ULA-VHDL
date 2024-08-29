@@ -22,10 +22,10 @@ architecture arch_shifter of shifter is
 begin
 	process(control, A)
 	begin
-		for i in 0 to BITS_ARCH/2 loop
+		for i in 0 to BITS_ARCH - 2 loop
 			aux_mux(1)(i)(0) <= A(i + 1);
 		end loop;
-		for i in 1 to BITS_ARCH/2 + 1 loop
+		for i in 1 to BITS_ARCH loop
 			aux_mux(0)(i)(0) <= A(i - 1);
 		end loop;
 	end process;

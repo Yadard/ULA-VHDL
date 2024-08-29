@@ -30,6 +30,7 @@ architecture arch_divider OF divider IS
 	signal S_chain: S_chain_levels_t;
 	signal operands: operands_levels_t := (OTHERS => (OTHERS => (OTHERS => '0')));
 	
+	constant extra_levels: integer := 2;
 begin
 	process(A, B)
 	begin
@@ -47,7 +48,7 @@ begin
 		for l in 1 to Q'length - 1 loop
 			
 			-- last three levels
-			if l >= Q'length - 1 - 2 then
+			if l /= 0 then
 				for i in 1 to B'length loop
 					operands(l)(i)(1) <= S_chain(l - 1)(i - 1);
 				end loop;
@@ -74,7 +75,7 @@ begin
 	gen_division: for i in 0 to Q'length - 1 generate
 	begin
 		  -- generator for the last two levels
-        gen_carry_chain: IF i > Q'length - 1 - 2 generate
+        gen_carry_chain: IF i /= 0 generate
 				constant ci_per_level : integer := B'length + 1;
 		  begin
             gen_carry: for j in 0 to ci_per_level - 1 generate
@@ -94,7 +95,7 @@ begin
         end generate gen_carry_chain;
 
         -- generator for the other levels
-        gen_normal_chain: if i <= BITS_ARCH - 3 generate
+        gen_normal_chain: if i = 0 generate
 				CONSTANT ci_per_level : integer := B'length;
 		  begin
             gen_carry: for j in 0 to ci_per_level - 1 generate

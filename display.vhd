@@ -41,10 +41,10 @@ BEGIN
 		out_codes <= (OTHERS => (OTHERS => '1'));
 		
 		num := to_integer(unsigned(in_value));
+
 		for i in 0 to SEG7_AMOUNT - 1 loop
-			out_codes(SEG7_AMOUNT - 1 - i) <= chars_code(num MOD RADIX);
+			out_codes(i) <= chars_code(num MOD RADIX);
 			num := num / RADIX;
-		end loop;
-		
+		end loop;	
 	end process;
 END arq_display;

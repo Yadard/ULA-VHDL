@@ -35,6 +35,6 @@ ARCHITECTURE arch_adder_and_sub OF adder_and_sub IS
 
     -- Connect carry-in and carry-out
     c(0) <= control;
-    carry <= c(BITS_ARCH - 1) XOR c(BITS_ARCH);
+    carry <= (c(BITS_ARCH - 1) AND (control)) XOR c(BITS_ARCH);
 	
 END arch_adder_and_sub;
